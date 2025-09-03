@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Escribe tu mensaje</h1>
+  <form method="post" class="form">
+    <label>To: (máx. 50):
+      <input name="to_name" type="text" maxlength="50" required placeholder="miss u">
+    </label>
+    <label>Mensaje (máx. 500):
+      <textarea name="body" rows="6" maxlength="500" required placeholder="Envía tu mensaje"></textarea>
+    </label>
+    <label>Color:
+      <input name="color" type="color" value="#f0f0f0">
+    </label>
+    <button type="submit">Publicar</button>
+    <p class="help">No guardamos ninguna identidad</p>
+  </form>
+{% endblock %}

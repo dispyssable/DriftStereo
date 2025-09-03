@@ -1,0 +1,148 @@
+:root {
+    --bg: #0f0f14;
+    --fg: #e8e8f0;
+    --muted: #a6a6b3;
+    --accent: #7aa2f7;
+    --card-fg: #0b0b0b
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0
+}
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.5 system-ui, Segoe UI, Roboto
+}
+
+.wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 16px
+}
+
+.site-header,
+.site-footer {
+    background: #11131a;
+    border-bottom: 1px solid #1b1f2a
+}
+
+.site-footer {
+    border-top: 1px solid #1b1f2a;
+    border-bottom: none
+}
+
+.site-header .wrap,
+.site-footer .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.brand {
+    color: var(--fg);
+    font-weight: 700;
+    text-decoration: none
+}
+
+nav a {
+    color: var(--fg);
+    text-decoration: none;
+    margin-left: 16px
+}
+
+nav a.cta {
+    padding: 6px 10px;
+    border: 1px solid #2a2f3c;
+    border-radius: 10px
+}
+
+h1,
+h2,
+h3 {
+    margin: 16px 0
+}
+
+.flash {
+    background: #1b2233;
+    border: 1px solid #26314b;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 16px 0
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px
+}
+
+.card {
+    padding: 14px;
+    border-radius: 16px;
+    color: var(--card-fg);
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+.card h3 {
+    margin: 0 0 8px
+}
+
+.card p {
+    margin: 0 0 10px;
+    font-weight: 600
+}
+
+.card time {
+    font-size: 12px;
+    color: #222
+}
+
+.form {
+    display: grid;
+    gap: 12px;
+    background: #0f121b;
+    border: 1px solid #1b2233;
+    border-radius: 14px;
+    padding: 16px
+}
+
+.form label {
+    display: grid;
+    gap: 6px
+}
+
+.form input[type="text"],
+.form textarea,
+.form input[type="color"] {
+    background: #0e1220;
+    color: var(--fg);
+    border: 1px solid #26314b;
+    border-radius: 10px;
+    padding: 10px
+}
+
+.form button {
+    background: var(--accent);
+    color: #0b0b0b;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-weight: 700;
+    cursor: pointer
+}
+
+.form .help {
+    color: var(--muted);
+    font-size: 14px
+}
