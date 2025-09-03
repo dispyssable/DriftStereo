@@ -1,13 +1,23 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DriftStereo</title>
-</head>
-<body>
-  <h1>Have you ever been so drawn to someone that you just can’t get them out of your head?</h1>
-  <p><a href="/submit">The message for the person who comes into your life like a bolt of lightning, even though you can never hold onto them</a></p>
-<p><a href="/submit">Type
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+  <h1>Mensajes recientes</h1>
+
+  <p style="opacity:.7">Total: {{ messages|length }}</p>
+
+  {% if messages %}
+    <div class="grid">
+      {% for msg in messages %}
+        <article class="card" style="background: {{ msg.color }}; color:#000;">
+          <h3>Para: {{ msg.to_name }}</h3>
+          <p>{{ msg.body }}</p>
+          <time datetime="{{ msg.created_at.isoformat() }}">
+            {{ msg.created_at.strftime("%d/%m/%Y %H:%M") }}
+          </time>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Aún no hay mensajes. <a href="{{ url_for('submit') }}">Escribe el primer mensaje</a></p>
+  {% endif %}
+{% endblock %}
+
