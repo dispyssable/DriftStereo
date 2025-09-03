@@ -1,71 +1,46 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
-from flask_sqlalchemy import SQLAlchemy
+# app.py
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from datetime import datetime
-import os, re
 
-# ---- App y configuración ----
 app = Flask(__name__, template_folder="templates", static_folder="static")
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-key")
+app.config["SECRET_KEY"] = "dev-key"   # para flash()
 
-# Base de datos en /instance/driftstereo.db
-os.makedirs(app.instance_path, exist_ok=True)
-db_path = os.path.join(app.instance_path, "driftstereo.db")
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# ---- HOME (/) ----
+@app.route("/", endpoint="home")
+def home():
+    return render_template("home.html")
 
-db = SQLAlchemy(app)
+# ---- GALLERY (/gallery) ----
+@app.route("/gallery", endpoint="gallery")
+def gallery():
+    # si no usas BD aún, pasa una lista vacía
+    messages = []
+    return render_template("gallery.html", messages=messages)
 
-# ---- Modelo ----
-class Message(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    to_name = db.Column(db.String(50), nullable=False)
-    body = db.Column(db.String(500), nullable=False)
-    color = db.Column(db.String(7), nullable=False, default="#f0f0f0")
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+# Alias en español si quieres /galeria → redirige a /gallery
+@app.route("/galeria")
+def galeria_alias():
+    return redirect(url_for("gallery"))
 
-with app.app_context():
-    db.create_all()
-
-# ---- Rutas ----
-@app.route("/")
-def index():
-    msgs = Message.query.order_by(Message.created_at.desc()).limit(100).all()
-    return render_template("index.html", messages=msgs)
-
-@app.route("/submit", methods=["GET", "POST"])
+# ---- FORM (/submit) ----
+@app.route("/submit", methods=["GET", "POST"], endpoint="submit")
 def submit():
     if request.method == "POST":
         to_name = (request.form.get("to_name") or "").strip()
-        body = (request.form.get("body") or "").strip()
-        color = (request.form.get("color") or "#f0f0f0").strip()
-
+        body    = (request.form.get("body") or "").strip()
+        color   = (request.form.get("color") or "#f0f0f0").strip()
         if not to_name or not body:
-            flash("Completa 'Para' y 'Mensaje'.")
+            flash("Please fill in both 'To' and 'Message'.")
             return redirect(url_for("submit"))
-        if len(to_name) > 50 or len(body) > 500:
-            flash("Límites: Para ≤50, Mensaje ≤500.")
-            return redirect(url_for("submit"))
-        if not re.match(r"^#[0-9A-Fa-f]{6}$", color):
-            color = "#f0f0f0"
-
-        db.session.add(Message(to_name=to_name, body=body, color=color))
-        db.session.commit()
+        flash("Saved!")                     # aquí guardarías en la BD
         return redirect(url_for("thanks"))
-
     return render_template("submit.html")
 
-@app.route("/thanks")
+# ---- THANKS (/thanks) ----
+@app.route("/thanks", endpoint="thanks")
 def thanks():
     return render_template("thanks.html")
 
-@app.route("/messages.json")
-def messages_json():
-    msgs = Message.query.order_by(Message.created_at.desc()).limit(100).all()
-    return jsonify([
-        {"id": m.id, "to": m.to_name, "body": m.body, "color": m.color, "created_at": m.created_at.isoformat()}
-        for m in msgs
-    ])
 
-# ---- ¡IMPORTANTE! Esto debe estar pegado a la izquierda ----
 if __name__ == "__main__":
-    app.run(debug=True)  # http://127.0.0.1:5000
+    app.run(debug=True)

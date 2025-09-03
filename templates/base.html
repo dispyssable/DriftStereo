@@ -1,31 +1,28 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DriftStereo – Mensajes anónimos</title>
+  <meta charset="utf-8">
+  <title>DriftStereo</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="{{ url_for('index') }}">DriftStereo</a>
-      <nav>
-        <a href="{{ url_for('index') }}">Galería</a>
-        <a class="cta" href="{{ url_for('submit') }}">Escribir</a>
-      </nav>
-    </div>
+<body style="background:#fdfdf8; font-family: 'Times New Roman', serif; color:#000;">
+  <header style="text-align:center; padding:2em; background:#f5f5dc;">
+    <h1 style="font-size:2.5em;">Welcome to DriftStereo</h1>
+    <p style="font-size:1.2em;">Leave your anonymous message</p>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a> |
+      <a href="{{ url_for('gallery') }}">Gallery</a> |
+      <a href="{{ url_for('submit') }}">Write</a>
+    </nav>
   </header>
-  <main class="wrap">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flash">{% for m in messages %}<p>{{ m }}</p>{% endfor %}</div>
-      {% endif %}
-    {% endwith %}
+
+  <main>
     {% block content %}{% endblock %}
   </main>
-  <footer class="site-footer">
-    <div class="wrap"><small>Proyecto</small></div>
-  </footer>
 </body>
 </html>
+<nav class="topnav">
+  <a href="{{ url_for('home') }}">Home</a>
+  <a href="{{ url_for('gallery') }}">Gallery</a>
+  <a href="{{ url_for('submit') }}">Write</a>
+</nav>

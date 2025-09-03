@@ -1,23 +1,5 @@
-{% extends "base.html" %}
-{% block content %}
-  <h1>Mensajes recientes</h1>
-
-  <p style="opacity:.7">Total: {{ messages|length }}</p>
-
-  {% if messages %}
-    <div class="grid">
-      {% for msg in messages %}
-        <article class="card" style="background: {{ msg.color }}; color:#000;">
-          <h3>Para: {{ msg.to_name }}</h3>
-          <p>{{ msg.body }}</p>
-          <time datetime="{{ msg.created_at.isoformat() }}">
-            {{ msg.created_at.strftime("%d/%m/%Y %H:%M") }}
-          </time>
-        </article>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>Aún no hay mensajes. <a href="{{ url_for('submit') }}">Escribe el primer mensaje</a></p>
-  {% endif %}
-{% endblock %}
-
+<!doctype html>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url={{ url_for('home') }}">
+<title>Redirecting…</title>
+<p>Redirecting to Home… If nothing happens, <a href="{{ url_for('home') }}">click here</a>.</p>

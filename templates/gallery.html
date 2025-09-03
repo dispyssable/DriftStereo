@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Gallery</h1>
+  {% if messages %}
+    <div class="grid">
+      {% for m in messages %}
+        <article class="card" style="background: {{ m.color or '#fff' }};">
+          <h3>To: {{ m.to_name }}</h3>
+          <p>{{ m.body }}</p>
+          <time>{{ m.created_at }}</time>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No messages yet. <a href="{{ url_for('submit') }}">Type one</a></p>
+  {% endif %}
+{% endblock %}
