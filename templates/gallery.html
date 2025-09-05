@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Gallery</h1>
-  {% if messages %}
-    <div class="grid">
-      {% for m in messages %}
-        <article class="card" style="background: {{ m.color or '#fff' }};">
-          <h3>To: {{ m.to_name }}</h3>
-          <p>{{ m.body }}</p>
-          <time>{{ m.created_at }}</time>
-        </article>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No messages yet. <a href="{{ url_for('submit') }}">Type one</a></p>
-  {% endif %}
+<h1>Gallery</h1>
+<p class="lead">Recent messages from DriftStereo.</p>
+
+{% if messages %}
+  <div class="grid">
+    {% for msg in messages %}
+      <article class="card"
+        style="background: {{ msg.color }}; color: {{ '#FFFFFF' if msg.color|lower == '#000000' else '#000000' }};">
+        <h3>To: {{ msg.to_name }}</h3>
+        <p>{{ msg.body }}</p>
+        <time datetime="{{ msg.created_at.isoformat() }}">
+          {{ msg.created_at.strftime('%d/%m/%Y %H:%M') }}
+        </time>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No messages yet. <a href="{{ url_for('submit') }}">Write one</p>
+{% endif %}
 {% endblock %}

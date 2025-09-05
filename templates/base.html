@@ -19,6 +19,8 @@
   <main>
     {% block content %}{% endblock %}
   </main>
+    <script defer src="{{ url_for('static', filename='js/utils.js') }}"></script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>
 <nav class="topnav">
